@@ -1,5 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import TodoItem from '../TodoItem/TodoItem'
+import Test from '../Test/Test'
+import axios from 'axios';
+
 import '../style.css';
 
 class TodoList extends Component{
@@ -7,11 +10,25 @@ class TodoList extends Component{
     super(props);
     this.state = {
       inputValue: '',
-      list: ['吃饭','睡觉','123','eee']
+      list: []
+      
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/api/todolist')
+         .then((res) => {
+           console.log(res.data);
+           this.setState(() => ({
+            list: [...res.data]
+           }))
+          })
+         .catch(() => {
+           console.log('error');
+         })
   }
 
   render() {
@@ -25,12 +42,14 @@ class TodoList extends Component{
             className='input'
             value={this.state.inputValue} 
             onChange={this.handleInputChange} 
+            ref={(input) => {this.input = input}}
           />
           <button onClick={this.handleButtonClick}>提交</button>
         </div>
-        <ul>
+        <ul ref={(ul) => {this.ul=ul}}>
           {this.getTodoItem()}
         </ul>
+        <Test content={this.state.inputValue} />
       </Fragment>
     )
   }
@@ -49,7 +68,7 @@ class TodoList extends Component{
   }
   
   handleInputChange = (e) => {
-    const value = e.target.value;
+    const value = this.input.value;
     this.setState(() => ({
       inputValue: value
     }));
@@ -68,6 +87,8 @@ class TodoList extends Component{
         list:[...prevState.list, prevState.inputValue],
         inputValue:''
       }
+    }, () => {
+      console.log(this.ul.querySelectorAll('div').length);
     });
   }
 
