@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import store from '../store/index.js'
+import axios from 'axios'
 import TodoListUI  from './TodoListUI'
-import { getInputChangeAction, submitction, deleteItemAction, initListAction , getTodoLIst} from '../store/actionCreators'
+import { getInitList, getInputChangeAction, submitction, deleteItemAction, initListAction , getTodoLIst} from '../store/actionCreators'
 
 import '../style.css';
 
@@ -16,6 +17,7 @@ class TodoList extends Component{
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
     store.subscribe(this.handleStoreChange);  // react 感知store的的变化
   }
+
   render() {
     return(
       <TodoListUI
@@ -28,9 +30,20 @@ class TodoList extends Component{
     )
   }
   componentDidMount (e) {
-    const action = getTodoLIst();
+    // const action = getTodoLIst();
+    // store.dispatch(action);
+    // console.log(action);
+    const action = getInitList();
+    console.log(action );
     store.dispatch(action);
-    console.log(action);
+    // console.log(action);
+    // axios.get('/api/todolist').then((res) => {
+    //   const data = res.data;
+    //   const action = initListAction(data);
+    //   store.dispatch(action);
+    // }).catch(() => {
+
+    // })
   }
 
   handleInputChange(e) {

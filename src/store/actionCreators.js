@@ -1,4 +1,4 @@
-import { CHANGE_IPUT_VALUE, ADD_LIST_ITEM, DEIELE_ITEM, INIT_LIST } from './actionTypes'
+import { CHANGE_IPUT_VALUE, ADD_LIST_ITEM, DEIELE_ITEM, INIT_LIST, GET_INIT_LIST } from './actionTypes'
 import axios from 'axios'
 import store from '../store/index.js'
 
@@ -34,3 +34,16 @@ export const getTodoLIst = () => {
     })
   }
 }
+
+export const getInitList  = () => ({
+  type: GET_INIT_LIST
+  // return (dispatch) => {
+  //   axios.get('/api/todolist').then((res) => {
+  //     const data = res.data;
+  //     const action = initListAction(data);
+  //     dispatch(action);
+  //   }).catch(() => {
+
+  //   })
+  // }
+})
